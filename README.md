@@ -1,4 +1,4 @@
-# 🎮 OLM Cheat V4 - AI-Powered Quiz Helper
+# 🎮 OLM Cheat V1 - AI-Powered Quiz Helper
 
 > **Disclaimer**: This tool is for educational purposes only. Use responsibly.
 
