@@ -20,7 +20,7 @@ Script hỗ trợ trả lời câu hỏi trên **olm.vn** .
 
 1. Tải `Release.zip` từ **Releases**
 2. Giải nén và chạy:trainer.exe
-```
+
 
 3. Nhập **Groq API key** (hoặc Enter để dùng key mặc định)
 
