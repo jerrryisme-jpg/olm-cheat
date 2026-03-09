@@ -12,7 +12,7 @@ AI-powered tool to help answer OLM.VN quiz questions.
 
 ## 🚀 Quick Start
 
-1. Run `trainer.py`
+1. Run `trainer.exe`
 2. Enter API key (or leave blank for default)
 3. Copy generated `olm_cheat_trained.js`
 4. Open OLM quiz → Press F12 → Console tab
@@ -39,7 +39,7 @@ Get free key at https://console.groq.com
 ## 📁 Files
 
 - `lib/olm_cheat_base.js` - Main script
-- `trainer.py` - Customization tool
+- `trainer.exe` - Customization tool
 - `knowledge.txt` - Knowledge base
 - `INSTRUCTIONS.txt` - Detailed guide
 
@@ -50,3 +50,6 @@ Educational purposes only. Use responsibly.
 ## 📝 License
 
 MIT License - see LICENSE file
+
+## Made by Jerry 
+Contact Tiktok @jerry_tesfayee
