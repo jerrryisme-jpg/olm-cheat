@@ -1,0 +1,269 @@
+# OLM CHEAT V4 - Detailed Instructions
+
+## 📖 Table of Contents
+
+1. [Installation](#installation)
+2. [Basic Usage](#basic-usage)
+3. [Advanced Features](#advanced-features)
+4. [Customization](#customization)
+5. [Troubleshooting](#troubleshooting)
+
+---
+
+## 1. Installation
+
+### Using Pre-built Trainer (Windows)
+
+1. Download `OLM_Cheat_Trainer.exe` from Releases
+2. Double-click to run
+3. Follow the prompts:
+   ```
+   Enter your Groq API key
+   (Leave blank to use default key)
+   API Key: [press Enter to use default]
+   ```
+4. Script will create `olm_cheat_trained.js`
+5. Open the file and copy all content (Ctrl+A, Ctrl+C)
+
+### Using Python Script (All Platforms)
+
+1. Install Python 3.6+ if not already installed
+2. Download this repository
+3. Open terminal/command prompt in the folder
+4. Run:
+   ```bash
+   python trainer.py
+   ```
+5. Follow prompts
+6. Copy content from `olm_cheat_trained.js`
+
+---
+
+## 2. Basic Usage
+
+### Step 1: Load Script
+
+1. Open OLM website (olm.vn)
+2. Press **F12** to open Developer Tools
+3. Click **Console** tab
+4. **Paste the entire script**
+5. Press **Enter**
+
+You should see:
+```
+🚀 OLM CHEAT V4 INITIALIZING...
+✅ OLM CHEAT V4 READY
+```
+
+### Step 2: Start Quiz
+
+1. Start your quiz as normal
+2. A purple/pink panel appears in the top-right
+3. AI automatically answers each question!
+
+### Step 3: Read Answers
+
+- **AI Answer Box** - Shows the answer with confidence %
+- **Question Box** - Shows current question (click to copy)
+- **Green badge** = High confidence (80%+)
+- **Yellow badge** = Medium confidence (60-79%)
+- **Red badge** = Low confidence (<60%)
+
+---
+
+## 3. Advanced Features
+
+### Timer Control
+
+**Stop Time:**
+- Click "⏸️ STOP TIME" button
+- Timer freezes
+- To resume: reload page
+
+**Why reload?**
+- The website creates timers dynamically
+- Reloading is the cleanest way to restart
+
+### Screenshot Mode
+
+**For image-based questions:**
+
+1. Press **Ctrl+Space**
+2. Screen darkens slightly
+3. Click and drag to select question area
+4. Release mouse
+5. Script automatically:
+   - Captures screenshot
+   - Converts image → text (OCR)
+   - Sends text to AI
+   - Displays answer
+
+**Tips:**
+- Select the entire question including answers
+- Make sure text is readable
+- Works best with clear fonts
+
+### Manual Questions
+
+**If AI doesn't auto-detect:**
+
+1. Type question in the input box
+2. Press **Enter** or click **Send**
+3. AI answers manually typed questions
+
+**Screenshot with manual box:**
+- Ctrl+Space → drag → auto-sends to AI
+- Extracted text appears in input box
+- Then AI answers
+
+---
+
+## 4. Customization
+
+### Add Your Own API Key
+
+**Why?**
+- Default key has rate limits shared by all users
+- Your own key = faster, more reliable
+
+**How to get free key:**
+1. Go to https://console.groq.com
+2. Sign up (free)
+3. Go to API Keys
+4. Create new key
+5. Copy the key (starts with `gsk_`)
+
+**Use in trainer:**
+```
+Enter your Groq API key
+API Key: gsk_YOUR_KEY_HERE
+```
+
+### Add Custom Knowledge
+
+**Create knowledge.txt:**
+```
+Q: What is photosynthesis?
+A: Process where plants convert light into energy
+
+Q: Who invented the telephone?
+A: Alexander Graham Bell
+
+Q: Công nghệ khí canh là gì?
+A: Công nghệ trồng cây sử dụng khí CO2
+```
+
+**Format:**
+- `Q:` for questions
+- `A:` for answers
+- Supports Vietnamese and English
+- Add as many as you want
+
+**How it helps:**
+- AI prioritizes knowledge.txt answers
+- Faster responses
+- More accurate for repeated questions
+
+---
+
+## 5. Troubleshooting
+
+### Script Not Working
+
+**Problem:** Nothing happens after pasting
+- ✅ Check if you copied the ENTIRE script
+- ✅ Make sure you're on the quiz page
+- ✅ Try refreshing and pasting again
+- ✅ Check console for red error messages
+
+**Problem:** "API Error"
+- ✅ Check internet connection
+- ✅ Default API key might be rate-limited
+- ✅ Get your own free key from Groq
+
+**Problem:** Empty answers or "❌ Error"
+- ✅ Question might be too complex
+- ✅ Try screenshot mode
+- ✅ Check console logs
+- ✅ API might be down (rare)
+
+### Timer Issues
+
+**Problem:** Timer doesn't stop
+- ✅ Click button AFTER quiz starts
+- ✅ Some quizzes use different timer systems
+- ✅ Try reloading and pasting script earlier
+
+**Problem:** Can't resume after stopping
+- ✅ This is expected - reload page to resume
+- ✅ Script persists across page reloads on same tab
+
+### Screenshot Issues
+
+**Problem:** Ctrl+Space doesn't work
+- ✅ Make sure script loaded successfully
+- ✅ Try clicking on the page first
+- ✅ Check if another extension uses Ctrl+Space
+
+**Problem:** OCR text is wrong
+- ✅ Select larger area including all text
+- ✅ Make sure text is clear and readable
+- ✅ Try typing manually instead
+
+### AI Answer Issues
+
+**Problem:** Wrong answers
+- ✅ Check confidence score (red = uncertain)
+- ✅ Add correct answers to knowledge.txt
+- ✅ Try rephrasing the question manually
+- ✅ AI is not 100% accurate!
+
+**Problem:** Answers in wrong format
+- ✅ This is being improved
+- ✅ Check console logs
+- ✅ Report the question format
+
+---
+
+## 💡 Pro Tips
+
+1. **Load early** - Paste script before starting quiz
+2. **Watch confidence** - Green badges are usually correct
+3. **Screenshot when stuck** - Works for complex questions
+4. **Build knowledge base** - Add answers as you go
+5. **Get your own key** - More reliable than shared key
+
+---
+
+## 🆘 Still Need Help?
+
+1. Check console logs (F12)
+2. Read error messages carefully
+3. Open an issue on GitHub
+4. Include:
+   - Error message
+   - Screenshot
+   - Steps to reproduce
+
+---
+
+## 📈 Performance Tips
+
+**For Faster Answers:**
+- Use your own API key
+- Build knowledge.txt with common questions
+- Close unnecessary browser tabs
+
+**For More Accurate Answers:**
+- Use screenshot mode for complex questions
+- Add correct answers to knowledge.txt after each quiz
+- Check confidence scores
+
+**For Stability:**
+- Don't spam the AI
+- Wait for answers to complete
+- Reload if script seems stuck
+
+---
+
+**Happy studying! 💜**

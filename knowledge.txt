@@ -1,0 +1,15 @@
+# OLM Quiz Knowledge Base
+# Add your custom Q&A here to help the AI answer better!
+
+# Example format:
+# Q: Question here?
+# A: Answer here
+
+Q: Công nghệ nào sử dụng khí CO2 để trồng cây?
+A: Công nghệ khí canh
+
+Q: Đặc điểm của khí hậu nhiệt đới?
+A: Nóng ẩm quanh năm, mưa nhiều
+
+# Add more Q&A pairs below:
+
