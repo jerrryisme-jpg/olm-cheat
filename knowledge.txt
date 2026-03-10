@@ -1,4 +1,2 @@
-# Knowledge Base
-# Add facts, answers, and information here for the AI to learn from.
-# Just write plain text - no special format needed.
-# Add more knowledge below:
+# ASK CHATGPT WITH THIS PROMPT AND PASTE HERE : 
+"Give me a full document in viet to train a quiz solver ai(Thinking and websearch mode activated),plain text,nópcial format needed. That contain neccessary information about (content)"
