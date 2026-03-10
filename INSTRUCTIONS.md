@@ -24,7 +24,7 @@ Script hỗ trợ trả lời câu hỏi trên **olm.vn** .
 
 3. Nhập **Groq API key** (hoặc Enter để dùng key mặc định)
 
-Script sẽ tạo file:lib/olm_cheat_trained.js
+Script sẽ tạo file: lib/olm_cheat_trained.js
 
 Mở file và **copy toàn bộ nội dung**.
 
