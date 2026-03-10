@@ -10,7 +10,7 @@ AI-powered tool to help answer OLM.VN quiz questions.
 - 🎯 Confidence scores (color-coded 🟢🟡🟠🔴)
 - 📝 Supports multiple choice, true/false, fill-in-blank
 
-## 🚀 Quick Start
+##  Quick Start
 
 1. Run `trainer.exe`
 2. Enter API key (or leave blank for default)
@@ -26,7 +26,7 @@ Edit `knowledge.txt` with facts/answers the AI should know.
 **Use Your API Key:**
 Get free key at https://console.groq.com
 
-## 💡 Usage
+##  Usage
 
 - Script auto-detects questions and answers
 - Confidence shown next to answer (green=high, red=low)
