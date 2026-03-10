@@ -1,8 +1,8 @@
-# 🎮 OLM Cheat - AI Quiz Helper
+#  OLM Cheat - AI Quiz Helper
 
 AI-powered tool to help answer OLM.VN quiz questions.
 
-## ✨ Features
+##  Features
 
 - 🤖 AI answers using Groq (openai/gpt-oss-120b)
 - 📸 Screenshot questions with Ctrl+Space
