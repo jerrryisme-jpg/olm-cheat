@@ -1,2 +1,0 @@
-# ASK CHATGPT WITH THIS PROMPT AND PASTE HERE : 
-"Give me a full document in viet to train a quiz solver ai(Thinking and websearch mode activated),plain text,nópcial format needed. That contain neccessary information about (content)"
