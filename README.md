@@ -8,7 +8,6 @@
 
 ## ✨ Features
 
-- 🤖 **AI Answers** - Powered by Groq AI (GPT & Vision models)
 - 📸 **Screenshot OCR** - Ctrl+Space to capture image questions
 - ⏱️ **Time Freeze** - Stop the quiz timer
 - 🔍 **Q&A Search** - Search through saved questions
