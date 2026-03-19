@@ -6,7 +6,7 @@
 ![Chrome](https://img.shields.io/badge/Chrome-Extension-green)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 
-## ✨ Features
+## Features
 
 - 📸 **Screenshot OCR** - Ctrl+Space to capture image questions
 - ⏱️ **Time Freeze** - Stop the quiz timer
@@ -16,7 +16,7 @@
 - 📏 **Resizable** - Drag to resize the panel
 - 📚 **History** - Saves all questions and answers
 
-## 🚀 Installation
+## Installation
 
 ### Chrome Extension (Recommended)
 
