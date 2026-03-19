@@ -1,6 +1,5 @@
 # OLM Cheat V2.0
 
-> AI-powered quiz helper for OLM.VN with modern glass UI
 
 ![Version](https://img.shields.io/badge/version-2.1-9146ff)
 ![Chrome](https://img.shields.io/badge/Chrome-Extension-green)
