@@ -14,17 +14,6 @@ INSTALLATION (CHROME EXTENSION)
 
 6. Chọn thư mục vừa giải nén
 
-7. Lấy API key MIỄN PHÍ từ: console.groq.com
-   - Đăng ký tài khoản
-   - Tạo API key
-   - Copy key
-
-8. Click phải vào icon extension → Options
-
-9. Paste API key vào ô "API Key"
-
-10. Click "Save API Key"
-
 For educational and research purposes only.
 Use at your own risk.
 
