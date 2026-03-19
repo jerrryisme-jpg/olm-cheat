@@ -1,0 +1,29 @@
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temp files
+*.tmp
+*.log
+node_modules/
+
+# Build artifacts
+dist/
+build/
+
+# API Keys (don't commit these!)
+*.key
+.env
+
+# Python
+__pycache__/
+*.pyc
+
+# Misc
+.cache/

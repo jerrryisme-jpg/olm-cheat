@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>OLM Cheat v2.0.3 - Settings</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 30px;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      color: #e0e0e0;
+      min-height: 100vh;
+    }
+    h1 {
+      color: #9146ff;
+      font-size: 32px;
+      margin-bottom: 8px;
+      font-weight: 800;
+    }
+    .subtitle {
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 30px;
+      font-size: 16px;
+    }
+    .section {
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(145, 70, 255, 0.3);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+    h2 {
+      color: #9146ff;
+      font-size: 20px;
+      margin-top: 0;
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.9);
+    }
+    input[type="text"],
+    textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid rgba(145, 70, 255, 0.4);
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: monospace;
+      background: rgba(0,0,0,0.3);
+      color: #fff;
+      box-sizing: border-box;
+      margin-bottom: 16px;
+    }
+    textarea {
+      min-height: 200px;
+      resize: vertical;
+    }
+    input[type="text"]:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #9146ff;
+      box-shadow: 0 0 12px rgba(145, 70, 255, 0.3);
+    }
+    button {
+      background: #9146ff;
+      color: white;
+      border: none;
+      padding: 12px 28px;
+      font-size: 15px;
+      font-weight: 700;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-right: 12px;
+      transition: all 0.2s;
+    }
+    button:hover {
+      background: #a356ff;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(145, 70, 255, 0.4);
+    }
+    .success {
+      background: rgba(0, 255, 0, 0.2);
+      border: 1px solid rgba(0, 255, 0, 0.4);
+      color: #00ff00;
+      padding: 12px;
+      border-radius: 8px;
+      margin-top: 16px;
+      display: none;
+      font-weight: 600;
+    }
+    .info-box {
+      background: rgba(145, 70, 255, 0.15);
+      border: 1px solid rgba(145, 70, 255, 0.3);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    code {
+      background: rgba(0,0,0,0.4);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+      color: #9146ff;
+    }
+    .highlight {
+      background: rgba(255,255,0,0.2);
+      padding: 2px 4px;
+      border-radius: 3px;
+      font-weight: 700;
+    }
+    a {
+      color: #9146ff;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h1>🚀 OLM CHEAT V2.0</h1>
+  <div class="subtitle">Settings & Training Center</div>
+
+  <div class="section">
+    <h2>Teacher Doc System</h2>
+    <div class="info-box">
+      <strong>How it works:</strong><br>
+      1. Auto-downloads docx file on page load<br>
+      2. Parses <span class="highlight">ALL questions & answers</span> from docx<br>
+      3. Stores in memory as Q&A map<br>
+      4. Looks up answer when question detected OR screenshot taken<br>
+      5. Shows answer from docx (99%)
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Behavior Settings</h2>
+    <div class="info-box">
+      Configure how the cheat tool behaves during exams.
+    </div>
+    
+    <label style="display: flex; align-items: center; gap: 12px; cursor: pointer; margin-bottom: 16px;">
+      <input type="checkbox" id="autoUpdate" style="width: 20px; height: 20px; cursor: pointer;">
+      <div>
+        <strong>Auto-update answer on new question</strong><br>
+        <span style="font-size: 13px; color: rgba(255,255,255,0.7);">Automatically fills in the answer when moving to the next question (OFF by default)</span>
+      </div>
+    </label>
+    
+    <label style="display: flex; align-items: center; gap: 12px; cursor: pointer; margin-bottom: 16px;">
+      <input type="checkbox" id="performanceMode" style="width: 20px; height: 20px; cursor: pointer;">
+      <div>
+        <strong>Performance Mode</strong><br>
+        <span style="font-size: 13px; color: rgba(255,255,255,0.7);">Removes animations and transitions for better performance on slower devices (OFF by default)</span>
+      </div>
+    </label>
+    
+    <div id="settingsSuccess" class="success">✓ Settings saved!</div>
+  </div>
+
+  <div class="section">
+    <h2>🔑 API Key (Optional)</h2>
+    <div class="info-box">
+      <strong>Optional:</strong> Add your own Groq API key for unlimited usage.<br>
+      Get free key at <a href="https://console.groq.com" target="_blank">console.groq.com</a>
+    </div>
+    <label for="apiKey">Groq API Key:</label>
+    <input type="text" id="apiKey" placeholder="gsk_...">
+    <button id="saveApiKey">Save API Key</button>
+    <div id="apiKeySuccess" class="success">✓ API Key saved!</div>
+  </div>
+
+  <div style="text-align: center; margin-top: 40px; opacity: 0.7;">
+    Made with 💜 by Jerry • <a href="https://github.com/jerrryisme-jpg" target="_blank">GitHub</a> • v2.0
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>

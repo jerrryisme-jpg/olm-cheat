@@ -1,0 +1,43 @@
+{
+  "manifest_version": 3,
+  "name": "OLM Cheat",
+  "version": "2.0",
+  "description": "Auto-answers OLM.VN quiz questions with AI - Trainable!",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage",
+    "tabs"
+  ],
+  "host_permissions": [
+    "https://olm.vn/*",
+    "https://*.olm.vn/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://olm.vn/*", "https://*.olm.vn/*"],
+      "js": ["content_wrapper.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["olm_cheat.js"],
+      "matches": ["https://olm.vn/*", "https://*.olm.vn/*"]
+    }
+  ],
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icon16.png",
+      "48": "icon48.png",
+      "128": "icon128.png"
+    }
+  },
+  "options_page": "options.html"
+}
