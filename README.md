@@ -1,4 +1,4 @@
-# 🎯 OLM Cheat V2.1
+# OLM Cheat V2.1
 
 > AI-powered quiz helper for OLM.VN with modern glass UI
 
