@@ -19,7 +19,7 @@
 
 ## 🚀 Installation
 
-### Method 1: Chrome Extension (Recommended)
+### Chrome Extension (Recommended)
 
 1. Download the [latest release](https://github.com/jerrryisme-jpg/olm-cheat/releases)
 2. Unzip the file
@@ -28,13 +28,6 @@
 5. Click **Load unpacked**
 6. Select the unzipped folder
 7. Done! 🎉
-
-### Method 2: Userscript
-
-1. Install [Tampermonkey](https://www.tampermonkey.net/)
-2. Click [here](https://github.com/jerrryisme-jpg/olm-cheat/raw/main/olm_cheat.user.js) to install
-3. Done!
-
 
 ### Screenshot Mode
 1. Press **Ctrl+Space**
