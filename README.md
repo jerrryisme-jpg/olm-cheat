@@ -43,14 +43,11 @@
 
 
 
-## 📄 License
-
-MIT © Jerry
-
 ## 💜 Credits
 
 Made with 💜 by [Jerry](https://github.com/jerrryisme-jpg)
 
+Contact: Tiktok **@jerry_tesfayee**
+
 ---
 
-⭐ **Star this repo if it helped you!**
