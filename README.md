@@ -1,7 +1,7 @@
 # OLM Cheat V2.0
 
 
-![Version](https://img.shields.io/badge/version-2.1-9146ff)
+![Version](https://img.shields.io/badge/version-2.0-9146ff)
 ![Chrome](https://img.shields.io/badge/Chrome-Extension-green)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 
