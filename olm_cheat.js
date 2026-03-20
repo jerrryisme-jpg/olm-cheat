@@ -15,7 +15,7 @@
         githubUrl: 'https://github.com/jerrryisme-jpg',
         isPaused: false,
         is5x: false,
-        groqApiKey: 'gsk_xwrvFjIteAW5LguAVxOWGdyb3FYSbe1EvIGnNe1ExYZGD1rluwR',
+        groqApiKey: 'gsk_xwrvFUjIteAW5LguAVxOWGyb3FYSbe1EvIGnNe1ExYZGD1rluwR',
         groqTextModel: 'openai/gpt-oss-120b',
         groqVisionModel: 'meta-llama/llama-4-scout-17b-16e-instruct',
         debugMode: true,
@@ -33,6 +33,12 @@
     let resizeType = null;
     let startLeft = 0;
     
+    // Server-side time freeze state
+    let timeFrozen = false;
+    let frozenTimeSpent = null;
+    let frozenDisplayTime = null;
+    let timerObserver = null;
+    
 
     
     function log(msg, color = '#9146ff') {
@@ -46,6 +52,107 @@
             hash = hash & hash;
         }
         return hash;
+    }
+    
+    // ============================================
+    // HIJACK EXAM_UI ANTI-CHEAT SYSTEM
+    // ============================================
+    
+    function hijackEXAMUI() {
+        if (!window.EXAM_UI) {
+            return false;
+        }
+        
+        // Disable violation counting
+        if (EXAM_UI.getData) {
+            const originalGetData = EXAM_UI.getData;
+            EXAM_UI.getData = function(key) {
+                const data = originalGetData.call(this, key);
+                if (key === 'asubmit') return 0; // No auto-submit limit
+                if (key === 'count_log') return 0; // No violations logged
+                return data;
+            };
+        }
+        
+        // Block the setData to prevent log updates
+        if (EXAM_UI.setData) {
+            const originalSetData = EXAM_UI.setData;
+            EXAM_UI.setData = function(key, value) {
+                if (key === 'count_log') {
+                    return; // Block violation counter updates
+                }
+                return originalSetData.call(this, key, value);
+            };
+        }
+        
+        return true;
+    }
+    
+    // ============================================
+    // SERVER-SIDE TIME HIJACKING
+    // ============================================
+    
+    function hijackCATEUI() {
+        if (!window.CATE_UI) {
+            return false;
+        }
+        
+        if (window.CATE_UI.timeNext) {
+            const originalTimeNext = window.CATE_UI.timeNext;
+            window.CATE_UI.timeNext = function() {
+                if (timeFrozen) {
+                    const timer = window.CATE_UI.getTimer();
+                    const savedTimeSpent = timer.time_spent;
+                    
+                    originalTimeNext.call(this);
+                    
+                    timer.time_spent = savedTimeSpent;
+                    
+                    try {
+                        const data = window.CATE_UI.getData();
+                        let key = 'time_spent:' + data.id_page_user + '.' + data.id_category;
+                        if (data.id_courseware) {
+                            key += '.' + data.id_courseware;
+                        }
+                        localStorage.setItem(key, JSON.stringify(frozenTimeSpent));
+                    } catch(e) {}
+                    
+                    return;
+                }
+                return originalTimeNext.call(this);
+            };
+        }
+        
+        if (window.CATE_UI.saveResult) {
+            const originalSaveResult = window.CATE_UI.saveResult;
+            window.CATE_UI.saveResult = function(data, callback, includeTime) {
+                // Block violation logs
+                if (data && data.log) {
+                    if (callback) callback(true);
+                    return;
+                }
+                
+                // Freeze time if enabled
+                if (timeFrozen && frozenTimeSpent !== null) {
+                    data = data || {};
+                    data.time_spent = frozenTimeSpent;
+                }
+                
+                return originalSaveResult.call(this, data, callback, includeTime);
+            };
+        }
+        
+        if (window.CATE_UI.saveLocalRecord) {
+            const originalSaveLocalRecord = window.CATE_UI.saveLocalRecord;
+            window.CATE_UI.saveLocalRecord = function(key, data) {
+                if (timeFrozen && key === 'time_spent') {
+                    return;
+                }
+                return originalSaveLocalRecord.call(this, key, data);
+            };
+        }
+        
+        return true;
     }
     
     
@@ -159,46 +266,209 @@
 
     
     function bypassTabDetection() {
-        console.log('%c[OLM v2.0]  Bypassing anticheat...', 'color: #ff00ff; font-weight: bold;');
+        console.log('%c[OLM v2.0] 🚀 Bypassing anticheat...', 'color: #ff00ff; font-weight: bold;');
         
+        // Tab switch detection killer
+        let hidden = false;
         Object.defineProperty(document, 'hidden', {
-            get: () => false,
+            get: function() { return hidden; },
             configurable: true
         });
         
         Object.defineProperty(document, 'visibilityState', {
-            get: () => 'visible',
+            get: function() { return 'visible'; },
             configurable: true
         });
         
-        Object.defineProperty(document, 'webkitHidden', {
-            get: () => false,
-            configurable: true
-        });
-        
-        Object.defineProperty(document, 'webkitVisibilityState', {
-            get: () => 'visible',
-            configurable: true
-        });
-        
-        const originalAddEventListener = document.addEventListener;
-        document.addEventListener = function(type, listener, options) {
-            if (type === 'visibilitychange' || type === 'webkitvisibilitychange') {
+        const originalAddEventListener = EventTarget.prototype.addEventListener;
+        EventTarget.prototype.addEventListener = function(type, listener, options) {
+            const blockedEvents = [
+                'visibilitychange',
+                'blur', 
+                'focus',
+                'pause',
+                'resume',
+                'fullscreenchange',
+                'webkitfullscreenchange',
+                'mozfullscreenchange',
+                'msfullscreenchange',
+                'beforeunload'
+            ];
+            
+            if (blockedEvents.includes(type)) {
                 return;
             }
+            
             return originalAddEventListener.call(this, type, listener, options);
         };
         
-        window.addEventListener('blur', (e) => e.stopImmediatePropagation(), true);
-        window.addEventListener('focus', (e) => e.stopImmediatePropagation(), true);
+        // Fullscreen detection killer
+        Object.defineProperty(document, 'fullscreenElement', {
+            get: () => document.documentElement,
+            configurable: true
+        });
         
-        console.log('%c[OLM v2.0]  Anticheat bypassed', 'color: #00ff00; font-weight: bold;');
+        Object.defineProperty(document, 'webkitFullscreenElement', {
+            get: () => document.documentElement,
+            configurable: true
+        });
+        
+        Object.defineProperty(document, 'mozFullScreenElement', {
+            get: () => document.documentElement,
+            configurable: true
+        });
+        
+        Object.defineProperty(document, 'msFullscreenElement', {
+            get: () => document.documentElement,
+            configurable: true
+        });
+        
+        // Copy/paste/right-click freedom
+        const protectedEvents = ['copy', 'paste', 'cut', 'contextmenu', 'selectstart', 'mousedown'];
+        
+        protectedEvents.forEach(eventType => {
+            document.addEventListener(eventType, function(e) {
+                e.stopImmediatePropagation();
+            }, true);
+        });
+        
+        const enableSelection = () => {
+            if (!document.body) return;
+            
+            document.body.style.userSelect = 'auto';
+            document.body.style.webkitUserSelect = 'auto';
+            document.body.style.mozUserSelect = 'auto';
+            document.body.style.msUserSelect = 'auto';
+            
+            document.querySelectorAll('*').forEach(el => {
+                if (el.style.userSelect === 'none') {
+                    el.style.userSelect = 'auto';
+                }
+            });
+        };
+        
+        enableSelection();
+        setInterval(enableSelection, 500);
+        
+        // DevTools shortcuts freedom
+        const originalPreventDefault = Event.prototype.preventDefault;
+        Event.prototype.preventDefault = function() {
+            if (this.type === 'keydown') {
+                const key = this.key;
+                const ctrl = this.ctrlKey;
+                const shift = this.shiftKey;
+                
+                if (key === 'F12' || 
+                    (ctrl && shift && key === 'I') ||
+                    (ctrl && shift && key === 'C') ||
+                    (ctrl && key === 'U')) {
+                    return;
+                }
+            }
+            
+            if (this.type === 'contextmenu') {
+                return;
+            }
+            
+            return originalPreventDefault.call(this);
+        };
+        
+        // Block logging requests
+        const blockedEndpoints = [
+            'teacher-static',
+            'saveResult', 
+            'teacher-log',
+            'newexam-log',
+            'course/teacher-static'
+        ];
+        
+        const originalFetch = window.fetch;
+        window.fetch = function(...args) {
+            const url = String(args[0]);
+            if (blockedEndpoints.some(endpoint => url.includes(endpoint))) {
+                return Promise.resolve(new Response('{"success":true}', {
+                    status: 200,
+                    headers: {'Content-Type': 'application/json'}
+                }));
+            }
+            return originalFetch.apply(this, args);
+        };
+        
+        const originalXHROpen = XMLHttpRequest.prototype.open;
+        XMLHttpRequest.prototype.open = function(method, url, ...rest) {
+            if (blockedEndpoints.some(endpoint => url.includes(endpoint))) {
+                this._blocked = true;
+            }
+            return originalXHROpen.apply(this, [method, url, ...rest]);
+        };
+        
+        const originalXHRSend = XMLHttpRequest.prototype.send;
+        XMLHttpRequest.prototype.send = function(...args) {
+            if (this._blocked) {
+                return;
+            }
+            return originalXHRSend.apply(this, args);
+        };
+        
+        // Violation counter killer
+        const cleanupWarnings = () => {
+            const scoreEl = document.getElementById('tmp-score');
+            if (scoreEl && scoreEl.textContent.includes('Dấu hiệu gian lận')) {
+                scoreEl.textContent = '';
+                scoreEl.classList.remove('text-danger', 'font-weight-bold');
+            }
+            
+            // Reverse the warning messages instead of removing them
+            document.querySelectorAll('.noti-out-view').forEach(el => {
+                if (el.textContent.includes('rời khỏi màn hình') || el.textContent.includes('báo cáo')) {
+                    el.innerHTML = `<p class='mb-1'>Lưu ý: Hệ thống KHÔNG theo dõi khi bạn rời khỏi màn hình.</p><p class='mb-1'>Bạn có thể thoát ra thoải mái, không bị báo cáo.</p>`;
+                }
+            });
+            
+            // Remove other warning alerts
+            document.querySelectorAll('.alert-danger, .alert-warning').forEach(el => {
+                const text = el.textContent;
+                if (text.includes('rời khỏi màn hình') || 
+                    text.includes('toàn màn hình') ||
+                    text.includes('gian lận') ||
+                    text.includes('Cảnh báo') && text.includes('thoát')) {
+                    el.remove();
+                }
+            });
+        };
+        
+        cleanupWarnings();
+        setInterval(cleanupWarnings, 1000);
+        
+        window._dialogAlert = function(msg) {
+            return;
+        };
+        
+        window._dialogConfirm = function(title, msg, callback) {
+            if (callback) callback(true);
+            return;
+        };
+        
+        console.log('%c[OLM v2.0] ✅ Anticheat bypassed', 'color: #00ff00; font-weight: bold;');
+        
+        // ============================================
+        // HIJACK LOCALSTORAGE TO FREEZE TIME_SPENT
+        // ============================================
+        const originalSetItem = Storage.prototype.setItem;
+        Storage.prototype.setItem = function(key, value) {
+            // If time is frozen and this is a time_spent key, block the update
+            if (key.startsWith('time_spent:') && localStorage.getItem('olm_time_frozen') === 'true') {
+                const frozenValue = localStorage.getItem('olm_frozen_time');
+                if (frozenValue) {
+                    return originalSetItem.call(this, key, frozenValue);
+                }
+                return; // Block the update
+            }
+            return originalSetItem.call(this, key, value);
+        };
     }
     
 
-    
-    let timerIntervalId = null;
-    let originalTimerTexts = new Map();
     
     function toggleStop() {
         CONFIG.isPaused = !CONFIG.isPaused;
@@ -222,37 +492,67 @@
     }
     
     function stopAllTimers() {
-        const timers = document.querySelectorAll('[class*="countdown"], [class*="timer"], [id*="timer"], [class*="time"]');
-        
-        timers.forEach(timer => {
-            const text = timer.textContent.trim();
-            if (text && (text.includes(':') || text.match(/\d+/))) {
-                originalTimerTexts.set(timer, text);
+        // Server-side freeze using CATE_UI hijacking
+        if (window.CATE_UI) {
+            const timer = window.CATE_UI.getTimer();
+            if (timer) {
+                timeFrozen = true;
+                frozenTimeSpent = timer.time_spent;
+                
+                // CRITICAL: Also freeze the localStorage value so it persists across reloads
+                const data = window.CATE_UI.getData();
+                const lsKey = 'time_spent:' + data.id_page_user + '.' + data.id_category;
+                const fullKey = data.id_courseware ? lsKey + '.' + data.id_courseware : lsKey;
+                
+                // Store the frozen time in localStorage
+                try {
+                    localStorage.setItem(fullKey, JSON.stringify(frozenTimeSpent));
+                    localStorage.setItem('olm_time_frozen', 'true');
+                    localStorage.setItem('olm_frozen_time', JSON.stringify(frozenTimeSpent));
+                } catch(e) {}
             }
-        });
+        }
         
-        if (timerIntervalId) clearInterval(timerIntervalId);
-        timerIntervalId = setInterval(() => {
-            if (CONFIG.isPaused) {
-                timers.forEach(timer => {
-                    const frozenText = originalTimerTexts.get(timer);
-                    if (frozenText && timer.textContent.trim() !== frozenText) {
-                        timer.textContent = frozenText;
-                    }
-                });
+        // Client-side display freeze
+        const timerEl = document.getElementById('timecount');
+        if (timerEl) {
+            frozenDisplayTime = timerEl.textContent;
+            
+            if (timerObserver) {
+                timerObserver.disconnect();
             }
-        }, 50);
+            
+            timerObserver = new MutationObserver(() => {
+                if (timeFrozen && timerEl.textContent !== frozenDisplayTime) {
+                    timerEl.textContent = frozenDisplayTime;
+                }
+            });
+            timerObserver.observe(timerEl, { 
+                childList: true, 
+                characterData: true, 
+                subtree: true 
+            });
+        }
         
-        log('Timers frozen', '#ffff00');
+        log('Timers frozen (server + client + localStorage)', '#ffff00');
     }
     
     function resumeAllTimers() {
-        if (timerIntervalId) {
-            clearInterval(timerIntervalId);
-            timerIntervalId = null;
-        }
+        // Server-side unfreeze
+        timeFrozen = false;
+        frozenTimeSpent = null;
+        frozenDisplayTime = null;
         
-        originalTimerTexts.clear();
+        // Clear freeze markers from localStorage
+        try {
+            localStorage.removeItem('olm_time_frozen');
+            localStorage.removeItem('olm_frozen_time');
+        } catch(e) {}
+        
+        if (timerObserver) {
+            timerObserver.disconnect();
+            timerObserver = null;
+        }
         
         log('Timers resumed', '#00ff00');
     }
@@ -1694,8 +1994,8 @@
                 log('Time frozen', '#ffff00');
                 stopAllTimers();
             } else {
-                log('Reloading page...', '#00ff00');
-                location.reload();
+                log('Time resumed', '#00ff00');
+                resumeAllTimers();
             }
         });
     }
@@ -1872,6 +2172,50 @@
         setupKeyboardShortcuts();
         createControlPanel();
         startQuestionMonitoring();
+        
+        // Check if time was frozen before page reload
+        try {
+            if (localStorage.getItem('olm_time_frozen') === 'true') {
+                const savedFrozenTime = localStorage.getItem('olm_frozen_time');
+                if (savedFrozenTime) {
+                    timeFrozen = true;
+                    frozenTimeSpent = JSON.parse(savedFrozenTime);
+                    CONFIG.isPaused = true;
+                    
+                    // Update the toggle UI to OFF (unfrozen) after reload
+                    setTimeout(() => {
+                        const toggle = document.getElementById('olm-time-toggle');
+                        if (toggle) toggle.checked = false;
+                    }, 500);
+                }
+            }
+        } catch(e) {}
+        
+        // Poll for EXAM_UI and disable anti-cheat
+        if (!hijackEXAMUI()) {
+            const examPollInterval = setInterval(() => {
+                if (hijackEXAMUI()) {
+                    clearInterval(examPollInterval);
+                }
+            }, 100);
+            
+            setTimeout(() => {
+                clearInterval(examPollInterval);
+            }, 10000);
+        }
+        
+        // Poll for CATE_UI and hijack it for server-side time control
+        if (!hijackCATEUI()) {
+            const pollInterval = setInterval(() => {
+                if (hijackCATEUI()) {
+                    clearInterval(pollInterval);
+                }
+            }, 100);
+            
+            setTimeout(() => {
+                clearInterval(pollInterval);
+            }, 10000);
+        }
         
         setTimeout(() => {
 
