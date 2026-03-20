@@ -12,7 +12,7 @@ INSTALLATION (CHROME EXTENSION)
 
 5. Click "Load unpacked"
 
-6. Chọn thư mục vừa giải nén
+6. Chọn folder extension
 
 For educational and research purposes only.
 Use at your own risk.
