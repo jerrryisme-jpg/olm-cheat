@@ -15,7 +15,7 @@
         githubUrl: 'https://github.com/jerrryisme-jpg',
         isPaused: false,
         is5x: false,
-        groqApiKey: 'gsk_xwrvFUjIteAW5LguAVxOWGyb3FYSbe1EvIGnNe1ExYZGD1rluwR',
+        groqApiKey: 'gsk_xwrvUjIteAW5LguAVxOWGdyb3FYSbe1EvIGnNe1ExYZGD1rluwR',
         groqTextModel: 'openai/gpt-oss-120b',
         groqVisionModel: 'meta-llama/llama-4-scout-17b-16e-instruct',
         debugMode: true,
@@ -324,7 +324,7 @@
         });
         
         // Copy/paste/right-click freedom
-        const protectedEvents = ['copy', 'paste', 'cut', 'contextmenu', 'selectstart', 'mousedown'];
+        const protectedEvents = ['copy', 'paste', 'cut', 'contextmenu', 'selectstart'];
         
         protectedEvents.forEach(eventType => {
             document.addEventListener(eventType, function(e) {
